@@ -1,0 +1,384 @@
+/* src/index.css - Apple UI Style */
+
+/* === 1. 全局设置 === */
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #000; /* 地球背景保持深空黑，突出主体 */
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", "PingFang SC", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  color: #1d1d1f; /* Apple 深灰字 */
+}
+
+/* === 2. 右侧面板：iOS 风格明亮毛玻璃 === */
+.info-panel {
+  position: absolute;
+  top: 24px;
+  bottom: 24px;
+  right: 24px;
+  width: 380px;
+  
+  /* 核心：亮色毛玻璃 */
+  background: rgba(255, 255, 255, 0.65); 
+  backdrop-filter: blur(25px) saturate(180%);
+  -webkit-backdrop-filter: blur(25px) saturate(180%);
+  
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 24px;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.15); /* 柔和阴影 */
+  
+  padding: 32px 28px;
+  transform: translateX(120%);
+  transition: transform 0.5s cubic-bezier(0.32, 0.72, 0, 1); /* iOS 弹簧曲线 */
+  z-index: 10;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.info-panel.active {
+  transform: translateX(0);
+}
+
+/* 关闭按钮 */
+.close-btn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.05); /* 浅灰底 */
+  border: none;
+  color: #86868b;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: 0.2s;
+}
+.close-btn:hover { background: rgba(0, 0, 0, 0.1); color: #1d1d1f; }
+
+/* 内容滚动区 */
+.panel-content {
+  flex: 1;
+  overflow-y: auto;
+  margin-top: 30px;
+  padding-right: 5px; /* 防止滚动条贴边 */
+}
+/* 隐藏滚动条 */
+.panel-content::-webkit-scrollbar { width: 0; }
+
+/* --- 排版设计 --- */
+
+/* 1. 标题区 */
+.panel-header h1 {
+  font-size: 34px;
+  font-weight: 700;
+  margin: 0 0 6px 0;
+  color: #1d1d1f;
+  letter-spacing: -0.5px;
+}
+
+.panel-subtitle {
+  font-size: 13px;
+  color: #007AFF; /* Apple Blue */
+  font-weight: 600;
+  display: flex; align-items: center; gap: 6px;
+  margin-bottom: 30px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* 2. 数据统计行 */
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(0,0,0,0.06); /* 细分割线 */
+}
+.stat-row:last-child { border-bottom: none; }
+
+.stat-label { 
+  font-size: 15px; 
+  color: #86868b; /* 次级灰 */
+}
+.stat-value { 
+  font-size: 17px; 
+  color: #1d1d1f; 
+  font-weight: 600; 
+  font-family: "SF Pro Display", sans-serif;
+}
+
+/* 3. 描述白盒 (卡片式) */
+.desc-box {
+  margin-top: 10px;
+  background: rgba(255, 255, 255, 0.5); /* 浅色卡片 */
+  padding: 20px;
+  border-radius: 16px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: #424245;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+}
+
+/* 4. 足迹标题 */
+.gallery-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 16px;
+  padding-top: 10px;
+}
+.gallery-title {
+  font-size: 19px;
+  font-weight: 700;
+  color: #1d1d1f;
+}
+.gallery-count { 
+  font-size: 15px; 
+  color: #86868b; 
+}
+
+/* 5. 照片网格 (圆角更大，阴影更柔) */
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+.photo-item {
+  aspect-ratio: 1;
+  border-radius: 12px; /* iOS 风格圆角 */
+  overflow: hidden;
+  position: relative;
+  background: #f5f5f7;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+.photo-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+.photo-item img {
+  width: 100%; height: 100%; object-fit: cover;
+}
+
+/* 删除按钮 */
+.photo-delete-btn {
+  position: absolute;
+  top: 4px; right: 4px;
+  width: 20px; height: 20px;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(4px);
+  color: white;
+  border-radius: 50%;
+  border: none;
+  font-size: 14px;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; transition: 0.2s; cursor: pointer;
+}
+.photo-item:hover .photo-delete-btn { opacity: 1; }
+.photo-delete-btn:hover { background: #ff3b30; }
+
+
+/* === 3. 左侧控制菜单 (iOS Control Center 风格) === */
+.left-controls {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 16px; 
+  align-items: center;
+}
+
+/* 通用按钮样式：白底黑字，强投影 */
+.menu-hamburger-btn, .circle-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  
+  /* 纯白高亮材质 */
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255, 1);
+  
+  color: #1d1d1f;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); /* 弹性动效 */
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15); /* 明显的悬浮感 */
+}
+
+.menu-hamburger-btn:hover, .circle-btn:hover {
+  transform: scale(1.1);
+  background: #fff;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+}
+
+/* 激活状态：变成 Apple Blue */
+.menu-hamburger-btn.active, .circle-btn.active, .btn-play.playing {
+  background: #007AFF;
+  color: white;
+  border-color: #007AFF;
+  box-shadow: 0 8px 20px rgba(0, 122, 255, 0.4); /* 蓝色发光阴影 */
+}
+
+/* 列表容器 */
+.control-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 0;
+  opacity: 0;
+  transform: translateY(-20px) scale(0.9);
+  pointer-events: none;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.control-list.open {
+  max-height: 500px;
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+/* 红色删除按钮 */
+.btn-delete:hover {
+  background: #ff3b30;
+  color: white;
+  border-color: #ff3b30;
+  box-shadow: 0 8px 20px rgba(255, 59, 48, 0.4);
+}
+
+/* === 4. 地球标记 (更精致的圆角) === */
+.globe-photo-marker {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px; /* 类似 App 图标的圆角 */
+  border: 2px solid #fff;
+  background: #fff;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.globe-photo-marker:hover {
+  transform: scale(1.25);
+  border-color: #007AFF; /* 悬停变蓝 */
+  z-index: 100;
+}
+.globe-photo-marker img {
+  width: 100%; height: 100%; object-fit: cover;
+}
+.small-upload-btn {
+  margin-top: 20px;
+  /* Apple Blue 渐变，更有质感 */
+  background: linear-gradient(180deg, #007AFF 0%, #0062cc 100%);
+  color: white;
+  
+  border: none;
+  padding: 10px 24px;
+  border-radius: 50px; /* 胶囊形状 */
+  
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  
+  /* 蓝色发光阴影 */
+  box-shadow: 0 4px 15px rgba(0, 122, 255, 0.35);
+  
+  transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px; /* 图标和文字间距 */
+}
+
+/* 悬停效果：轻微上浮 + 阴影加深 */
+.small-upload-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 122, 255, 0.5);
+  filter: brightness(1.1);
+}
+
+/* 点击效果：微缩 */
+.small-upload-btn:active {
+  transform: scale(0.96) translateY(0);
+  box-shadow: 0 2px 10px rgba(0, 122, 255, 0.3);
+}
+/* === 4. 地球标记 (气泡框风格) === */
+.globe-photo-marker {
+  position: relative;
+  /* 移除 overflow: hidden，否则尖角会被切掉 */
+  width: 50px;
+  height: 50px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  /* 确保尖角底部对准坐标点 */
+  transform: translate(-50%, -100%); 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px; /* 白边宽度 */
+  box-sizing: border-box;
+}
+
+/* 内部图片容器 */
+.globe-photo-marker img {
+  width: 100%; 
+  height: 100%; 
+  object-fit: cover; 
+  border-radius: 8px; /* 图片圆角略小于外框 */
+  display: block;
+}
+
+/* 底部尖角 (使用伪元素) */
+.globe-photo-marker::after {
+  content: '';
+  position: absolute;
+  bottom: -8px; /* 尖角高度 */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid #fff; /* 颜色需与背景一致 */
+  filter: drop-shadow(0 2px 2px rgba(0,0,0,0.1));
+}
+
+/* === 状态：高亮 (回放时) === */
+.globe-photo-marker.highlight {
+  width: 80px;
+  height: 80px;
+  background: #FFD700; /* 金色背景/边框 */
+  z-index: 9999 !important;
+  box-shadow: 0 8px 25px rgba(255, 215, 0, 0.6);
+}
+
+.globe-photo-marker.highlight::after {
+  border-top-color: #FFD700; /* 尖角也变金 */
+  bottom: -10px;
+  border-width: 10px 9px 0; /* 尖角稍微大一点 */
+}
+
+/* === 状态：聚合 (显示数字) === */
+.cluster-marker-count {
+  position: absolute;
+  bottom: 2px;
+  left: 6px;
+  color: white;
+  font-size: 12px;
+  font-weight: 800;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.9);
+  line-height: 1;
+  pointer-events: none;
+}
