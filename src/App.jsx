@@ -15,6 +15,7 @@ const HUNAN_VIEW_THRESHOLD = 1.0;
 const CLUSTER_RADIUS_CONFIG = { min: 100, max: 200 };
 const ALTITUDE_THRESHOLD = 0.8;
 const CLOSE_UP_HEIGHT = 0.015;
+const assetUrl = (path) => `${import.meta.env.BASE_URL}${path}`;
 
 const getZoomFromAltitude = (alt) => Math.max(0, Math.min(20, Math.floor(5 - Math.log2(alt))));
 
@@ -720,9 +721,9 @@ function App() {
       <Globe
         ref={globeEl}
         onGlobeReady={handleGlobeReady}
-        globeImageUrl="/earth.jpg"
-        bumpImageUrl="/topology.png"
-        backgroundImageUrl={isDayMode ? null : "/night.png"}
+        globeImageUrl={assetUrl('earth.jpg')}
+        bumpImageUrl={assetUrl('topology.png')}
+        backgroundImageUrl={isDayMode ? null : assetUrl('night.png')}
         backgroundColor={isDayMode ? "#d4e6ff" : "#040d21"}
         atmosphereColor="rgb(200, 230, 255)"
         atmosphereAltitude={0.15}
